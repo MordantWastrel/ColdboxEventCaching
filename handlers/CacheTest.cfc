@@ -44,11 +44,13 @@ component extends="coldbox.system.RestHandler" {
 			eventArguments = { 'someInput' : event.getValue( 'someInput', '1' ) }
 		);
 
-		event.getResponse().setData( responseValue );
+		return response;
 	}
 
 	private function _indexEventArgs( event, rc, prc, string someInput = 'default' ) {
-		return arguments.someInput;
+		return event.getResponse().setData( {
+			'timestamp' : now(),
+			'someInput' : arguments.someInput
+		});
 	} 
-
 }
