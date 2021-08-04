@@ -14,7 +14,25 @@ component extends="coldbox.system.RestHandler" {
 	// REST Allowed HTTP Methods Ex: this.allowedMethods = {delete='POST,DELETE',index='GET'}
 	this.allowedMethods = {};
 
+	function preHandler( event, rc, prc ) {
+		rc.testCacheKey = 'sam@inleague.io';
+	}
+
+	this.event_cache_suffix = ( eventHandlerBean ) => {
+		return 'testCache_' & rc.testCacheKey;
+	}
+
 	function indexRCOnly( event, rc, prc ) {
+
+		systemOutput( this.event_cache_suffix );
+
+		var templateCache = cachebox.getCache( 'template' );
+		
+		if ( event.getValue( 'bustCache', 0 ) ) {
+			// test clearing cache by testCacheKey
+			templateCache.clearEvent( 'testCache_');
+			systemOutput( 'clearing Cache!' );
+		}
 
 		var insideEvent = runEvent(
 			event = 'CacheTest._indexRCOnly',
@@ -24,7 +42,7 @@ component extends="coldbox.system.RestHandler" {
 			eventArguments = { 'someInput' : event.getValue( 'someInput', '1' ) }
 		);
 
-		return insideEvent;
+		prc.response = insideEvent;
 	}
 
 	private function _indexRCOnly( event, rc, prc ) cache=true {
@@ -35,16 +53,16 @@ component extends="coldbox.system.RestHandler" {
 	}
 
 	function indexEventArgs( event, rc, prc ) {
-
+		dump('eventArgs');
 		var responseValue = runEvent(
-			event = 'CacheTest._index',
+			event = 'CacheTest._indexEventArgs',
 			private = true,
 			cache = true,
 			prePostExempt = true,
 			eventArguments = { 'someInput' : event.getValue( 'someInput', '1' ) }
 		);
 
-		return response;
+		prc.response = responseValue;
 	}
 
 	private function _indexEventArgs( event, rc, prc, string someInput = 'default' ) {

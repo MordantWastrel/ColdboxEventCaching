@@ -31,14 +31,16 @@
         "cbsecurity":"modules/cbsecurity/",
         "route-visualizer":"modules/route-visualizer/",
         "mementifier":"modules/mementifier/",
-        "cbvalidation":"modules/cbvalidation/"
+        "cbvalidation":"modules/cbvalidation/",
+        "cbdebugger":"modules/cbdebugger/"
     },
     "dependencies":{
-        "coldbox":"^6.0.0",
+        "coldbox":"be",
         "cbsecurity":"^2.5.0+94",
         "mementifier":"^2.1.0+100",
         "cbvalidation":"^2.1.0+126",
-        "testbox":"^4.2.1+400"
+        "testbox":"^4.2.1+400",
+        "cbdebugger":"^3.2.0+5"
     },
     "scripts":{}
 }
